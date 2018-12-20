@@ -72,6 +72,7 @@ class Wheel: SKShapeNode {
 }
 
 class WheelScene: SKScene {
+  //"Initial" creation of wheel
   let wheel: Wheel = Wheel(colors: [.red, .blue, .green, .white, .purple, .brown])
 
   override init(size: CGSize) {
@@ -93,12 +94,18 @@ class WheelScene: SKScene {
     fatalError("init(coder:) has not been implemented")
   }
 }
-
+//Creates an instance of WheelScene which allows you to modify values from outside WheelScene?
 class WheelView: SKView {
+  
+  //Not really clear on this
+  //Creating an instance of wheel with parameters from WheelScene?
   var wheel: Wheel { return (self.scene as! WheelScene).wheel }
-
+ // Based on swift documentation, CGRect is a struct?
+ // I read this as initialize a frame with parameters stored in CGRect
   override init(frame: CGRect) {
     super.init(frame: frame)
+  //Calls func that creates and displays the wheel
+  //Parameters of wheel set in wheel scene
     setup()
   }
 
@@ -108,8 +115,10 @@ class WheelView: SKView {
   }
 
   func setup() {
+    //Creates wheel
     let scene = WheelScene(size: frame.size)
     self.backgroundColor = .white
+    //Displays wheel
     self.presentScene(scene)
   }
 }
