@@ -73,6 +73,9 @@ class Wheel: SKShapeNode {
 
 class WheelScene: SKScene {
   //"Initial" creation of wheel
+  //
+  // No air quotes necessary, for each instance of `WheelScene` this is
+  // the initial (and only) creation of `Wheel`
   let wheel: Wheel = Wheel(colors: [.red, .blue, .green, .white, .purple, .brown])
 
   override init(size: CGSize) {
@@ -94,18 +97,34 @@ class WheelScene: SKScene {
     fatalError("init(coder:) has not been implemented")
   }
 }
+
 //Creates an instance of WheelScene which allows you to modify values from outside WheelScene?
+//
+// Actually it defines a class which will contain a `WheelScene`,
+// allowing an instance of `WheelView` to control a `WheelScene`
 class WheelView: SKView {
   
   //Not really clear on this
   //Creating an instance of wheel with parameters from WheelScene?
+  //
+  // A computed property which casts the `SKScene` returned by `self.scene`
+  // into a `WheelScene` which has a `wheel` property and returns that property.
+  //
+  // It's a convienience to be able to easily access the `Wheel` instance.
+  // That way we can cause it to spin whenever we want.
   var wheel: Wheel { return (self.scene as! WheelScene).wheel }
- // Based on swift documentation, CGRect is a struct?
- // I read this as initialize a frame with parameters stored in CGRect
+  // Based on swift documentation, CGRect is a struct?
+  // I read this as initialize a frame with parameters stored in CGRect
+  //
+  // This initializes the class that contains it, in this case `WheelView`.
+  // it takes in a `frame` parameter and tells the superclass `SKView` to
+  // use it to initialize itself.
   override init(frame: CGRect) {
     super.init(frame: frame)
-  //Calls func that creates and displays the wheel
-  //Parameters of wheel set in wheel scene
+    //Calls func that creates and displays the wheel
+    //Parameters of wheel set in wheel scene
+    //
+    // Correct
     setup()
   }
 
@@ -116,9 +135,14 @@ class WheelView: SKView {
 
   func setup() {
     //Creates wheel
+    //
+    // Creates the subclass of `SKScene` that controls a `Wheel`
     let scene = WheelScene(size: frame.size)
     self.backgroundColor = .white
     //Displays wheel
+    //
+    // Tells the subclass of `SKScene` to do what it needs to do in order
+    // to run itself and display itself for the user.
     self.presentScene(scene)
   }
 }
